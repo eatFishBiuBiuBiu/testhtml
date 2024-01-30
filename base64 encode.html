@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Encryption and decryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 96%;
+            height: 200px;
+            resize: none;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Base64 Encryption and decryption</h1>
+        <label for="inputText">Please enter text：</label>
+        <textarea id="inputText"></textarea>
+        <br>
+        <button onclick="encode()">Encryption</button>
+        <button onclick="decode()">Decryption</button>
+        <br>
+        <label for="outputText">output：</label>
+        <textarea id="outputText" readonly></textarea>
+    </div>
+    <script>
+        function base64Encode(str) {
+          return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+            return String.fromCharCode('0x' + p1);
+          }));
+        }
+
+        function base64Decode(str) {
+          return decodeURIComponent(atob(str).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join(''));
+        }
+
+        function encode() {
+          var inputText = document.getElementById('inputText').value;
+          var outputText = base64Encode(inputText);
+          document.getElementById('outputText').value = outputText;
+        }
+
+        function decode() {
+          var inputText = document.getElementById('inputText').value;
+          var outputText = base64Decode(inputText);
+          document.getElementById('outputText').value = outputText;
+        }
+    </script>
+</body>
+</html>
